@@ -5,19 +5,19 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainController {
 	@FXML
     private Label label;
 	
-	@FXML
-	private Button button;
 	
 	@FXML
 	private TextField texto;
@@ -25,15 +25,24 @@ public class MainController {
     public void initialize() {
         // TODO
     }
+    
 
     @FXML
-    private void handleButtonAction(ActionEvent event) throws IOException {
-        Stage ventana = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("../gui.viewsandcontrollers.modal/Modal.fxml"));
-        Scene scene = new Scene(root);
+    private void pepe (ActionEvent event) throws IOException {
+        Stage dialog = new Stage();
+        
+        Node source = (Node) event.getSource();
+        Stage parent = (Stage) source.getScene().getWindow();
+        
+        dialog.initOwner(parent);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        Parent root = FXMLLoader.load(getClass().getResource("../modal/Modal.fxml"));
+        Scene scene = new Scene (root);
         Label label = (Label)root.getChildrenUnmodifiable().get(0);
         label.setText(texto.getText());
-        ventana.setScene(scene);
-        ventana.show();
+        dialog.setScene(scene);
+        dialog.show();
+        
+        
     }
 }
